@@ -9,18 +9,23 @@ class PhotosController < ApplicationController
   def create
     @photo = Photo.new(photo_params)
 
-    respond_to do |format|
-      if @photo.save
-        format.html { redirect_to @photo, notice: "Photo was successfully created." }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-      end
+    if !@photo.save
+      flash[:error] = @photo.errors.full_messages.to_sentence
+      redirect_to new_photo_path
+    else
+      redirect_to photos_path
     end
+  end
+
+  def destroy
+    photo = Photo.find(params[:id])
+    photo.destroy
+    redirect_to photos_path
   end
 
   private
 
   def photo_params
-    params.permit(:title, :description, :url)
+    params.require(:photo).permit(:title, :description, :url)
   end
 end
