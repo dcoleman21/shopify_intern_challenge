@@ -16,6 +16,7 @@
         <td><%= photo.title %></td>
         <td><%= photo.description %></td>
         <td><%= photo.url %></td>
+        <td><%= link_to 'Delete Photo', "/photos/#{photo.id}", method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
